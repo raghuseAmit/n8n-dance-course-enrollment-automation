@@ -16,9 +16,13 @@ The system allows students to submit their enrollment details through a Google F
 
 ![n8n Workflow](Screenshots/workflow.png)
 
-### Google Sheets
+### Google Sheets Before Sending Mail
 
-![Google Sheets](Screenshots/google-sheet.png)
+![Google Sheets](Screenshots/google-sheet-before.png)
+
+### Google Sheets Before Sending Mail
+
+![Google Sheets](Screenshots/google-sheet-after.png)
 
 ### Gmail Confirmation
 
