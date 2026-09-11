@@ -1,0 +1,252 @@
+{
+  "name": "gmailAutomation",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1QiiOTONQxkDlCA__L_p5MNOuF7lajgr77EnaVtWvc_0",
+          "mode": "list",
+          "cachedResultName": "Dance Course Enrollment (Responses)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1QiiOTONQxkDlCA__L_p5MNOuF7lajgr77EnaVtWvc_0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 583163534,
+          "mode": "list",
+          "cachedResultName": "Form Responses 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1QiiOTONQxkDlCA__L_p5MNOuF7lajgr77EnaVtWvc_0/edit#gid=583163534"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "@",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "@",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "@",
+              "leftValue": "={{ $json['Mail Sent '] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        224,
+        0
+      ],
+      "id": "@",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Google Sheets Trigger').item.json['Email '] }}",
+        "subject": "Welcome to Dance Class! Here is your enrollment confirmation 💃",
+        "emailType": "text",
+        "message": "=Hi {{ $('Google Sheets Trigger').item.json['Full Name'] }}, \nYour registration for Hip-Hop Style has been successfully received! Get ready to enjoy your learning journey with us. You can watch our introductory videos using the link below:\nhttps://drive.google.com/file/d/1wfY2Mg6T9wXgksX64lUJLS637c-60UhI/view?usp=sharing\nSee you in class soon! \nWarmly,  \n[Amit / AM Studio]",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        448,
+        -96
+      ],
+      "id": "@",
+      "name": "Send a message",
+      "webhookId": "@",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "@",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1QiiOTONQxkDlCA__L_p5MNOuF7lajgr77EnaVtWvc_0",
+          "mode": "list",
+          "cachedResultName": "Dance Course Enrollment (Responses)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1QiiOTONQxkDlCA__L_p5MNOuF7lajgr77EnaVtWvc_0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 583163534,
+          "mode": "list",
+          "cachedResultName": "Form Responses 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1QiiOTONQxkDlCA__L_p5MNOuF7lajgr77EnaVtWvc_0/edit#gid=583163534"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ $('Google Sheets Trigger').item.json.Timestamp }}",
+            "Mail Sent ": "Sent ✔️"
+          },
+          "matchingColumns": [
+            "Timestamp"
+          ],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Full Name",
+              "displayName": "Full Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email ",
+              "displayName": "Email ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Mail Sent ",
+              "displayName": "Mail Sent ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        672,
+        -96
+      ],
+      "id": "@",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "@",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "@",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "467285e858deefcb456fbfb0c1a00f3d8b9e9769678d635deb6b3743f85093e1"
+  },
+  "nodeGroups": [],
+  "id": "@",
+  "tags": []
+}
